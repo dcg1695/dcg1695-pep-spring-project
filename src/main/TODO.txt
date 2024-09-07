@@ -1,0 +1,7 @@
+------------------------------------------------------------------
+ACCOUNT TABLE                   MESSAGE TABLE
+- account_id (auto, unique)     - message_id (auto, unique)
+- username (not null, unique)   - posted_by (account_id)
+- password                      - message_text
+                                - time_posted_epoch
+-------------------------------------------------------------------
