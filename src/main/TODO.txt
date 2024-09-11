@@ -5,6 +5,3 @@ ACCOUNT TABLE                   MESSAGE TABLE
 - password                      - message_text
                                 - time_posted_epoch
 -------------------------------------------------------------------
-
--Work on controllers (message, user/account, social media)
--Use correct imports
