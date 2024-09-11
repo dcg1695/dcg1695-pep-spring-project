@@ -7,6 +7,4 @@ ACCOUNT TABLE                   MESSAGE TABLE
 -------------------------------------------------------------------
 
 -Work on controllers (message, user/account, social media)
--Work on repositories (message, account)
--Work on services (implement service methods -> tool classes)
 -Use correct imports
