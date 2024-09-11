@@ -5,3 +5,8 @@ ACCOUNT TABLE                   MESSAGE TABLE
 - password                      - message_text
                                 - time_posted_epoch
 -------------------------------------------------------------------
+
+-Work on controllers (message, user/account, social media)
+-Work on repositories (message, account)
+-Work on services (implement service methods -> tool classes)
+-Use correct imports
