@@ -6,6 +6,6 @@ import com.example.entity.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     
-    @Query("SELECT a FROM Account a WHERE a.username = ?1")
-    Account findByUsername(String username);
+    // @Query("SELECT a FROM Account a WHERE a.username = ?1")
+    // Account findByUsername(String username);
 }

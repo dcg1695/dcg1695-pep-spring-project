@@ -7,8 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.entity.Message;
 import com.example.entity.Account;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,7 +29,14 @@ public class MessageService {
     }
 
     public List<Message> getMessagesByAccountId(Integer accountId){
-        return messageRepository.findAllByPostedBy(accountId);
+        List<Message> listOfMessages = messageRepository.findAll();
+        List<Message> listOfUpdatedMessages = new ArrayList();
+        for (Message message : listOfMessages){
+            if (message.getPostedBy().equals(accountId)){
+                listOfUpdatedMessages.add(message);
+            }
+        }
+        return listOfUpdatedMessages;
     }
 
     public Message createMessage(Message message){

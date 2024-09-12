@@ -44,8 +44,4 @@ public class AccountService {
     public void deleteAccount(Integer id){
         accountRepository.deleteById(id);
     }
-
-    public Account getAccountByUsername(String username){
-        return accountRepository.findByUsername(username);
-    }
 }
