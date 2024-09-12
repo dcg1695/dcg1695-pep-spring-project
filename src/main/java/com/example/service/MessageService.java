@@ -1,22 +1,75 @@
 package com.example.service;
 
+import org.springframework.stereotype.Service;
+import com.example.repository.AccountRepository;
+import com.example.repository.MessageRepository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.example.entity.Message;
+import com.example.entity.Account;
 import java.util.List;
+import java.util.Optional;
 
-public interface MessageService {
-    List<Message> getAllMessages();
+@Service
+@Transactional
+public class MessageService {
+    
+    @Autowired
+    MessageRepository messageRepository;
 
-    Message getMessageById(Integer id);
+    @Autowired
+    AccountRepository accountRepository;
 
-    Message saveMessage(Message message);
+    public List<Message> getAllMessages(){
+        return messageRepository.findAll();
+    }
 
-    Message updateMessage(Integer id, Message message);
+    public Message getMessageById(int messageId){
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        return optionalMessage.orElse(null);
+    }
 
-    void deleteMessage(Integer id);
+    public List<Message> getMessagesByAccountId(Integer accountId){
+        return messageRepository.findAllByPostedBy(accountId);
+    }
 
-    Message createMessage(Message message);
+    public Message createMessage(Message message){
+        if (message.getMessageText().trim().isEmpty() || message.getMessageText().length() > 255){
+            return null;
+        }
+        
+        List<Account> accountList = accountRepository.findAll();
+        for (Account checkedAccount : accountList){
+            if (checkedAccount.getAccountId().equals(message.getPostedBy())){
+                return messageRepository.save(message);
+            }
+        }
+        
+        return null;
+    }
 
-    int deleteMessageById(Integer messageId);
+    public Message updateMessage(int messageId, Message message){
+        if (message.getMessageText().trim().isEmpty() || message.getMessageText().length() > 255){
+            return null;
+        }
 
-    List<Message> getAllMessagesForUser(Integer userId);
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if (optionalMessage.isPresent()){
+            Message updatedMessage = optionalMessage.get();
+            updatedMessage.setMessageText(message.getMessageText());
+            return messageRepository.save(updatedMessage);
+        }
+        return null;
+    }
+
+    public Message deleteMessage(int messageId){
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if (optionalMessage.isPresent()){
+            Message deletedMessage = optionalMessage.get();
+            messageRepository.deleteById(messageId);
+            return deletedMessage;
+        }
+
+        return null;
+    }
 }

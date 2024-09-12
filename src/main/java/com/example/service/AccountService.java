@@ -1,20 +1,51 @@
 package com.example.service;
 
+import org.springframework.stereotype.Service;
+import com.example.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import com.example.entity.Account;
+import java.util.Optional;
 import java.util.List;
 
-public interface AccountService {
-    List<Account> getAllAccounts();
+@Service
+@Transactional
+public class AccountService {
+    
+    @Autowired
+    AccountRepository accountRepository;
 
-    Account getAccountById(Integer id);
+    public Account getAccountById(int id) {
+        Optional<Account> optionalAccount = accountRepository.findById(id);
+        return optionalAccount.orElse(null);
+    }
 
-    Account saveAccount(Account account);
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
+    }
 
-    Account updateAccount(Integer id, Account account);
+    public Account createAccount(Account account){
+        Optional<Account> checkAccount = accountRepository.findById(account.getAccountId());
+        if (checkAccount.isPresent()) return null;
+        if (checkAccount.get().getUsername().equals(account.getUsername())) return null;
 
-    void deleteAccount(Integer id);
+        return accountRepository.save(account);
+    }
 
-    Account getAccountByUsername(String username);
+    public Account verifyAccount(Account account){
+        Optional<Account> checkAccount = accountRepository.findById(account.getAccountId());
+        if (checkAccount.get().getUsername().equals(account.getUsername()) && checkAccount.get().getPassword().equals(account.getPassword())){
+            return checkAccount.get();
+        }
+        
+        return null;
+    }
 
-    Account authenticate(String username, String password);
+    public void deleteAccount(Integer id){
+        accountRepository.deleteById(id);
+    }
+
+    public Account getAccountByUsername(String username){
+        return accountRepository.findByUsername(username);
+    }
 }
