@@ -5,7 +5,3 @@ ACCOUNT TABLE                   MESSAGE TABLE
 - password                      - message_text
                                 - time_posted_epoch
 -------------------------------------------------------------------
-
-- Fix DELETE MESSAGE BY ID method in message service layer (make checks for invalid inputs)
-- Fix ACCOUNT LOGIN method in account service layer (fix checks/achieve successful login)
-- Fix ACCOUNT CREATION method in account service layer (make checks/achieve successful creation)
