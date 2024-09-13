@@ -25,23 +25,27 @@ public class AccountService {
     }
 
     public Account createAccount(Account account){
-        Optional<Account> checkAccount = accountRepository.findById(account.getAccountId());
-        if (checkAccount.isPresent()) return null;
-        if (checkAccount.get().getUsername().equals(account.getUsername())) return null;
-
+        List<Account> listOfAccounts = accountRepository.findAll();
+        for (Account checkedAccount : listOfAccounts){
+            if (checkedAccount.getUsername().equals(account.getUsername())){
+                return null;
+            }
+        }
         return accountRepository.save(account);
     }
 
     public Account verifyAccount(Account account){
-        Optional<Account> checkAccount = accountRepository.findById(account.getAccountId());
-        if (checkAccount.get().getUsername().equals(account.getUsername()) && checkAccount.get().getPassword().equals(account.getPassword())){
-            return checkAccount.get();
+        List<Account> listOfAccounts = accountRepository.findAll();
+        for (Account checkedAccount : listOfAccounts){
+            if (checkedAccount.getUsername().equals(account.getUsername()) && checkedAccount.getPassword().equals(account.getPassword())){
+                return checkedAccount;
+            }
         }
-        
         return null;
     }
 
     public void deleteAccount(Integer id){
-        accountRepository.deleteById(id);
+        Optional<Account> checkAccount = accountRepository.findById(id);
+        if (checkAccount.isPresent()) accountRepository.deleteById(id);
     }
 }
